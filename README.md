@@ -26,7 +26,7 @@ java -jar build/libs/WebCrawler-1.0.jar <inputFileDirectory>
 ```
 
 For example:
-``
+```
 java -jar build/libs/WebCrawler-1.0.jar monzo.com
 ```
 
