@@ -20,14 +20,14 @@ Build all project modules (main and test)
 Please note that the Gradle build will not succeed unless all tests pass
 
 
-Run project using JAR executable
+Run the project
 ```
-java -jar build/libs/WebCrawler-1.0.jar <inputFileDirectory>
+./gradlew run '-Purl=<fullUrlOfWebPage>'
 ```
 
 For example:
 ```
-java -jar build/libs/WebCrawler-1.0.jar monzo.com
+./gradlew run '-Purl=https://www.monzo.com'
 ```
 
 ## Running the tests

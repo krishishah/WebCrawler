@@ -1,7 +1,7 @@
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class App {
 
@@ -11,6 +11,8 @@ public class App {
 
         Crawler c = new Crawler(sourceUrl);
 
-        Map<String, List<String>> graph = c.crawl();
+        Map<String, Set<String>> graph = c.crawl();
+
+        System.out.println("RESULT \n" + graph);
     }
 }
