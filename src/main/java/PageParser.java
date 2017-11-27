@@ -1,3 +1,5 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,6 +12,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PageParser {
+
+    static final Logger logger = LogManager.getLogger(PageParser.class.getName());
 
     private final URI hostUri;
     private final URI uri;
@@ -41,15 +45,16 @@ public class PageParser {
         }
 
         Elements linksOnPage = htmlDocument.select("a[href]");
-        System.out.println("Visiting " + uri.toString());
-        System.out.println("Found (" + linksOnPage.size() + ") links");
+
+        logger.debug("Visiting " + uri.toString());
+        logger.debug("Found (" + linksOnPage.size() + ") links");
 
         for(Element link : linksOnPage)
         {
             String extractedLink = link.absUrl("href");
 
             if(isValidLink(extractedLink)) {
-                System.out.println("Extracted " + extractedLink.toString());
+                logger.debug("Extracted " + extractedLink.toString());
                 links.add(URI.create(extractedLink));
             }
         }
@@ -88,12 +93,12 @@ public class PageParser {
         }
 
         if (connection.response().statusCode() != HTTP_OK) {
-            System.out.println("Failure: Can not establish connection to " + uri.toString());
+            logger.warn("Can not establish connection to " + uri.toString());
             return false;
         }
 
         if (!connection.response().contentType().contains("text/html")) {
-            System.out.println("Failure: Retrieved something other than HTML from " + uri.toString());
+            logger.warn("Retrieved something other than HTML from " + uri.toString());
             return false;
         }
 

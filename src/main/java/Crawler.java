@@ -1,7 +1,12 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.*;
 import java.net.URI;
 
 public class Crawler {
+
+    static final Logger logger = LogManager.getLogger(Crawler.class.getName());
 
     private final URI sourceUri;
     private Map<URI, Set<URI>> graph;

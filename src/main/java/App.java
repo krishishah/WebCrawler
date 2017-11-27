@@ -5,9 +5,16 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class App {
 
+    private static final Logger logger = LogManager.getLogger(App.class);
+
     public static void main(String[] args) throws IOException {
+
+        logger.info("Starting Application");
 
         // Error handling for incorrect arguments
         try {
@@ -17,10 +24,12 @@ public class App {
 
             Map<URI, Set<URI>> graph = c.crawl();
 
-            System.out.println("RESULT \n" + graph);
+            logger.debug("RESULT \n" + graph);
         } catch (URISyntaxException e) {
-            System.out.println("Failure: Invalid URL provided");
+            logger.error("Failure: Invalid URL provided \n " + e);
         }
+
+        logger.info("Exiting application");
 
     }
 }
