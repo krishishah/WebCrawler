@@ -1,5 +1,7 @@
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Set;
 
@@ -7,12 +9,18 @@ public class App {
 
     public static void main(String[] args) throws IOException {
 
-        String sourceUrl = args[0];
+        // Error handling for incorrect arguments
+        try {
+            URI sourceUri = new URI(args[0]);
 
-        Crawler c = new Crawler(sourceUrl);
+            Crawler c = new Crawler(sourceUri);
 
-        Map<String, Set<String>> graph = c.crawl();
+            Map<URI, Set<URI>> graph = c.crawl();
 
-        System.out.println("RESULT \n" + graph);
+            System.out.println("RESULT \n" + graph);
+        } catch (URISyntaxException e) {
+            System.out.println("Failure: Invalid URL provided");
+        }
+
     }
 }

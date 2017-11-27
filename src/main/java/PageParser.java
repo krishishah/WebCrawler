@@ -4,30 +4,32 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
 
 public class PageParser {
 
-    private final String sourceUrl;
-    private final String url;
-    private Set<String> links;
+    private final URI hostUri;
+    private final URI uri;
+    private Set<URI> links;
     private static final int HTTP_OK = 200;
     private static final String USER_AGENT =
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
 
-    PageParser(String url, String sourceUrl) {
-        this.sourceUrl = sourceUrl;
-        this.url = url;
+    PageParser(URI uri, URI hostUri) {
+        this.hostUri = hostUri;
+        this.uri = uri;
         this.links = new HashSet<>();
     }
 
-    String getUrl() {
-        return url;
+    URI getUri() {
+        return uri;
     }
 
-    Set<String> extractLinks() {
-        Connection connection = Jsoup.connect(url);
+    Set<URI> extractLinks() {
+        Connection connection = Jsoup.connect(uri.toString());
 
         Document htmlDocument;
 
@@ -39,24 +41,45 @@ public class PageParser {
         }
 
         Elements linksOnPage = htmlDocument.select("a[href]");
-        System.out.println("Visiting " + url);
+        System.out.println("Visiting " + uri.toString());
         System.out.println("Found (" + linksOnPage.size() + ") links");
 
         for(Element link : linksOnPage)
         {
-            String l = link.absUrl("href");
+            String extractedLink = link.absUrl("href");
 
-            if(l.contains(sourceUrl)) {
-                System.out.println("Extracted " + l);
-                links.add(l);
+            if(isValidLink(extractedLink)) {
+                System.out.println("Extracted " + extractedLink.toString());
+                links.add(URI.create(extractedLink));
             }
         }
 
         return links;
     }
 
+    boolean isValidLink(String url) {
+
+        if(url.isEmpty()) {
+            return false;
+        }
+
+        try {
+            URI link = new URI(url);
+
+            if(!getDomainName(link).equals(getDomainName(hostUri))) {
+                return false;
+            }
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     boolean isValidHtmlPage() {
-        Connection connection = Jsoup.connect(url).userAgent(USER_AGENT);
+        Connection connection = Jsoup.connect(uri.toString()).userAgent(USER_AGENT);
 
         try {
             connection.get();
@@ -65,15 +88,20 @@ public class PageParser {
         }
 
         if (connection.response().statusCode() != HTTP_OK) {
-            System.out.println("Failure: Can not establish connection to " + url);
+            System.out.println("Failure: Can not establish connection to " + uri.toString());
             return false;
         }
 
         if (!connection.response().contentType().contains("text/html")) {
-            System.out.println("Failure: Retrieved something other than HTML from " + url);
+            System.out.println("Failure: Retrieved something other than HTML from " + uri.toString());
             return false;
         }
 
         return true;
+    }
+
+    public static String getDomainName(URI uri) throws URISyntaxException {
+        String domain = uri.getHost();
+        return domain.startsWith("www.") ? domain.substring(4) : domain;
     }
 }

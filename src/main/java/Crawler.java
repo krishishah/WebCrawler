@@ -1,24 +1,25 @@
 import java.util.*;
+import java.net.URI;
 
 public class Crawler {
 
-    private final String sourceUrl;
-    private Map<String, Set<String>> graph;
-    private Queue<String> linksToVisit;
-    private List<String> visitedLinks;
+    private final URI sourceUri;
+    private Map<URI, Set<URI>> graph;
+    private Queue<URI> linksToVisit;
+    private List<URI> visitedLinks;
 
-    Crawler(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
+    Crawler(URI sourceUri) {
+        this.sourceUri = sourceUri;
         this.graph = new HashMap<>();
         this.visitedLinks = new LinkedList<>();
         this.linksToVisit = new LinkedList<>();
-        this.linksToVisit.add(sourceUrl);
+        this.linksToVisit.add(sourceUri);
     }
 
-    Map<String, Set<String>> crawl() {
+    Map<URI, Set<URI>> crawl() {
 
         while(!linksToVisit.isEmpty()) {
-            String link = linksToVisit.poll();
+            URI link = linksToVisit.poll();
 
             if(visitedLinks.contains(link)) {
                 continue;
@@ -26,13 +27,13 @@ public class Crawler {
 
             visitedLinks.add(link);
 
-            PageParser parser = new PageParser(link, sourceUrl);
+            PageParser parser = new PageParser(link, sourceUri);
 
             if(parser.isValidHtmlPage()) {
-                Set<String> extractedLinks = parser.extractLinks();
-                graph.put(parser.getUrl(), extractedLinks);
+                Set<URI> extractedLinks = parser.extractLinks();
+                graph.put(parser.getUri(), extractedLinks);
 
-                Set<String> unvisitedLinks = new HashSet<>(extractedLinks);
+                Set<URI> unvisitedLinks = new HashSet<>(extractedLinks);
                 unvisitedLinks.remove(visitedLinks);
 
                 linksToVisit.addAll(unvisitedLinks);
