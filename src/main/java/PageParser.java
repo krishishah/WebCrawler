@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PageParser {
+class PageParser {
 
     static final Logger logger = LogManager.getLogger(PageParser.class.getName());
 
@@ -40,7 +40,6 @@ public class PageParser {
         try {
             htmlDocument = connection.get();
         } catch (Exception e) {
-            e.printStackTrace();
             return links;
         }
 
@@ -49,11 +48,10 @@ public class PageParser {
         logger.debug("Visiting " + uri.toString());
         logger.debug("Found (" + linksOnPage.size() + ") links");
 
-        for(Element link : linksOnPage)
-        {
+        for (Element link : linksOnPage) {
             String extractedLink = link.absUrl("href");
 
-            if(isValidLink(extractedLink)) {
+            if (isValidLink(extractedLink)) {
                 logger.debug("Extracted " + extractedLink.toString());
                 links.add(URI.create(extractedLink));
             }
@@ -62,16 +60,20 @@ public class PageParser {
         return links;
     }
 
-    boolean isValidLink(String url) {
+    private boolean isValidLink(String url) {
 
-        if(url.isEmpty()) {
+        if (url.isEmpty()) {
+            return false;
+        }
+
+        if (!url.contains("http")) {
             return false;
         }
 
         try {
             URI link = new URI(url);
 
-            if(!getDomainName(link).equals(getDomainName(hostUri))) {
+            if (!getDomainName(link).equals(getDomainName(hostUri))) {
                 return false;
             }
 
@@ -89,7 +91,8 @@ public class PageParser {
         try {
             connection.get();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warn(e);
+            return false;
         }
 
         if (connection.response().statusCode() != HTTP_OK) {
@@ -105,7 +108,7 @@ public class PageParser {
         return true;
     }
 
-    public static String getDomainName(URI uri) throws URISyntaxException {
+    private static String getDomainName(URI uri) throws URISyntaxException {
         String domain = uri.getHost();
         return domain.startsWith("www.") ? domain.substring(4) : domain;
     }

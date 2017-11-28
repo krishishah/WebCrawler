@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 import java.net.URI;
 
-public class Crawler {
+class Crawler {
 
     static final Logger logger = LogManager.getLogger(Crawler.class.getName());
 
@@ -15,14 +15,13 @@ public class Crawler {
 
     Crawler(URI sourceUri) {
         this.sourceUri = sourceUri;
-        this.graph = new HashMap<>();
+        this.graph = new LinkedHashMap<>();
         this.visitedLinks = new LinkedList<>();
         this.linksToVisit = new LinkedList<>();
         this.linksToVisit.add(sourceUri);
     }
 
     Map<URI, Set<URI>> crawl() {
-
         while(!linksToVisit.isEmpty()) {
             URI link = linksToVisit.poll();
 
