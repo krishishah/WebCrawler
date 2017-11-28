@@ -61,7 +61,6 @@ class PageParser {
     }
 
     private boolean isValidLink(String url) {
-
         if (url.isEmpty()) {
             return false;
         }
