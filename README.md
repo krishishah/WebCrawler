@@ -34,3 +34,9 @@ For example:
 ```
 ./gradlew test
 ```
+
+
+## Output
+```
+Site Map printed within ```sitemap.txt``` in root repository directory
+```
