@@ -40,7 +40,7 @@ public class PageParserTests {
 
         //Act
         Set<URI> children = p.extractLinks();
-        System.out.println(children);
+        
         //Assert
         Assert.assertTrue(children.equals(expectedChildren));
     }
