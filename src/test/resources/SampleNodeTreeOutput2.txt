@@ -1,0 +1,5 @@
+└── http://example.com
+    ├── http://example2.com
+    │   └── http://childOfExample2.com
+    └── http://example1.com
+        └── http://childOfExample1.com

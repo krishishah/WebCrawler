@@ -43,7 +43,8 @@ public class TreeNodeTests {
     @Test
     public void printShouldPrintCorrectNodeTree() throws Exception {
         //Arrange
-        String expectedOutput = null;
+        String possibleExpectedOutput = null;
+        String possibleExpectedOutput2 = null;
 
         try(BufferedReader br = new BufferedReader(new FileReader("src/test/resources/SampleNodeTreeOutput.txt"))) {
             StringBuilder sb = new StringBuilder();
@@ -54,7 +55,19 @@ public class TreeNodeTests {
                 sb.append(System.lineSeparator());
                 line = br.readLine();
             }
-            expectedOutput = sb.toString();
+            possibleExpectedOutput = sb.toString();
+        }
+
+        try(BufferedReader br = new BufferedReader(new FileReader("src/test/resources/SampleNodeTreeOutput2.txt"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            possibleExpectedOutput2 = sb.toString();
         }
 
         Set<TreeNode<URI>> childTreeNodeSet = new HashSet<>();
@@ -76,7 +89,7 @@ public class TreeNodeTests {
         root.print(writer);
 
         //Assert
-        Assert.assertEquals(writer.toString(), expectedOutput);
+        Assert.assertTrue(writer.toString().equals(possibleExpectedOutput) || writer.toString().equals(possibleExpectedOutput2) );
     }
 
 }
