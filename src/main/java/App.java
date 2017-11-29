@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -34,7 +33,10 @@ public class App {
             throw new IllegalArgumentException("Failure: Invalid URL provided");
         } catch (IOException e) {
             logger.error(e);
-            throw new IOException("Unable to write sitemap to file");
+            throw new IOException("Unable to write Site Map to file");
+        } catch (NullPointerException e) {
+            logger.error(e);
+            throw new IOException("Unable to build Site Map for given input");
         } finally {
             if (writer != null) try {
                 writer.close();

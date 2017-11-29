@@ -31,9 +31,9 @@ class Crawler {
 
             visitedLinks.add(link);
 
-            PageParser parser = new PageParser(link, sourceUri);
+            if(PageParser.isCrawlableHtmlPage(link)) {
+                PageParser parser = new PageParser(link, sourceUri);
 
-            if(parser.isValidHtmlPage()) {
                 Set<URI> extractedLinks = parser.extractLinks();
                 graph.put(parser.getUri(), extractedLinks);
 

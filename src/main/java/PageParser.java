@@ -33,7 +33,7 @@ class PageParser {
     }
 
     Set<URI> extractLinks() {
-        Connection connection = Jsoup.connect(uri.toString());
+        Connection connection = Jsoup.connect(uri.toString()).userAgent(USER_AGENT);;
 
         Document htmlDocument;
 
@@ -84,7 +84,7 @@ class PageParser {
         return true;
     }
 
-    boolean isValidHtmlPage() {
+    static boolean isCrawlableHtmlPage(URI uri) {
         Connection connection = Jsoup.connect(uri.toString()).userAgent(USER_AGENT);
 
         try {

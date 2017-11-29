@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class TreeNode<T> {
+class TreeNode<T> {
 
     private T parent;
     Set<TreeNode<T>> children;
 
-    public TreeNode(T parent, Set<TreeNode<T>> children) {
+    TreeNode(T parent, Set<TreeNode<T>> children) {
         this.parent = parent;
         this.children = children;
     }
@@ -19,11 +19,11 @@ public class TreeNode<T> {
         return parent;
     }
 
-    public Set<TreeNode<T>> getChildren() {
+    Set<TreeNode<T>> getChildren() {
         return children;
     }
 
-    public void print(Writer writer) throws IOException {
+    void print(Writer writer) throws IOException {
         print("", true, new HashSet<>(), writer);
     }
 
