@@ -23,7 +23,7 @@ public class App {
         try {
             URI sourceUri = new URI(args[0]);
             Crawler c = new Crawler(sourceUri);
-            Map<URI, Set<URI>> res = c.crawl();
+            LinkedHashMap<URI, Set<URI>> res = c.crawl();
             TreeNode<URI> tree = TreeNodeUtils.buildUriTreeNode(sourceUri, res);
             writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream("sitemap.txt"), "utf-8"));

@@ -24,22 +24,19 @@ class TreeNode<T> {
     }
 
     void print(Writer writer) throws IOException {
-        print("", true, new HashSet<>(), writer);
+        print("", true, writer);
     }
 
-    private void print(String prefix, boolean isTail, Set<TreeNode<T>> visited, Writer writer) throws IOException {
+    private void print(String prefix, boolean isTail, Writer writer) throws IOException {
         writer.write(prefix + (isTail ? "└── " : "├── ") + parent.toString() + "\n");
 
         Iterator<TreeNode<T>> nodeIterator = children.iterator();
 
         TreeNode<T> tailNode = null;
 
-        while (nodeIterator.hasNext()) {
+        if (nodeIterator.hasNext()) {
             TreeNode<T> node = nodeIterator.next();
-            if(!visited.contains(node)) {
-                tailNode = node;
-                break;
-            }
+            tailNode = node;
         }
 
         while(nodeIterator.hasNext()) {
@@ -47,15 +44,11 @@ class TreeNode<T> {
             if(node == null) {
                 continue;
             }
-            if(!visited.contains(node)) {
-                visited.add(node);
-                node.print(prefix + (isTail ? "    " : "│   "), false, visited, writer);
-            }
+            node.print(prefix + (isTail ? "    " : "│   "), false, writer);
         }
 
         if (tailNode != null) {
-            visited.add(tailNode);
-            tailNode.print(prefix + (isTail ?"    " : "│   "), true, visited, writer);
+            tailNode.print(prefix + (isTail ?"    " : "│   "), true, writer);
         }
     }
 

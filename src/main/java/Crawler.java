@@ -9,7 +9,7 @@ class Crawler {
     static final Logger logger = LogManager.getLogger(Crawler.class.getName());
 
     private final URI sourceUri;
-    private Map<URI, Set<URI>> graph;
+    private LinkedHashMap<URI, Set<URI>> graph;
     private Queue<URI> linksToVisit;
     private List<URI> visitedLinks;
 
@@ -21,7 +21,7 @@ class Crawler {
         this.linksToVisit.add(sourceUri);
     }
 
-    Map<URI, Set<URI>> crawl() {
+    LinkedHashMap<URI, Set<URI>> crawl() {
         while(!linksToVisit.isEmpty()) {
             URI link = linksToVisit.poll();
 

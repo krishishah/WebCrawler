@@ -77,7 +77,7 @@ class PageParser {
             }
 
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.warn(e);
             return false;
         }
 
