@@ -17,8 +17,8 @@ public class TreeNodeUtils {
 
         treeNodeMap.forEach((URI key, TreeNode<URI> value) -> {
             Set<TreeNode<URI>> children = value.getChildren();
-            Set<URI> c = pageLinks.get(key);
-            for (URI node : c) {
+            Set<URI> outgoingLinks = pageLinks.get(key);
+            for (URI node : outgoingLinks) {
                 if (node.toString().equals(key.toString()) || visitedNodes.contains(node)) {
                     children.add(new TreeNode<>(node, new HashSet<>()));
                 } else if (!(visitedNodes.contains(node))) {
@@ -28,8 +28,6 @@ public class TreeNodeUtils {
             }
             visitedNodes.add(key);
         });
-
         return treeNodeMap.get(sourceUri);
     }
-
 }

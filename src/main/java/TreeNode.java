@@ -1,7 +1,6 @@
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -51,6 +50,4 @@ class TreeNode<T> {
             tailNode.print(prefix + (isTail ?"    " : "│   "), true, writer);
         }
     }
-
-
 }
