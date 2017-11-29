@@ -40,8 +40,6 @@ public class TreeNodeUtilsTests {
         crawlerOutput.put(aboutUri, aboutAndContactSet);
         crawlerOutput.put(contactUri, aboutAndContactSet);
 
-        System.out.println(crawlerOutput);
-
         //Act
         TreeNode<URI> treeNode = TreeNodeUtils.buildUriTreeNode(sourceUri, crawlerOutput);
 
