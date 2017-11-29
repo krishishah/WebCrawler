@@ -37,6 +37,25 @@ For example:
 
 
 ## Output
-```
+
 Site Map printed within ```sitemap.txt``` in root repository directory
+
+For example (not a representation of full output):
+```
+└── https://www.monzo.com
+    ├── https://monzo.com/transparency
+    │   ├── https://monzo.com/about
+    │   ├── https://monzo.com/annual-report/
+    │   ├── https://monzo.com/
+    │   ├── https://monzo.com/careers
+    │   ├── https://monzo.com/help
+    │   ├── https://monzo.com/invest/
+    │   ├── https://monzo.com/blog
+    │   ├── https://monzo.com/community
+    │   ├── https://monzo.com/cookies
+    │   ├── https://monzo.com/press
+    │   └── https://monzo.com/download
+    └── https://monzo.com/download
+    ......
+
 ```
