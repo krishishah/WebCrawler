@@ -59,3 +59,5 @@ For example (not a representation of full output):
     ......
 
 ```
+
+Logs outputted to ```logs/app.log``` directory
